@@ -18,7 +18,7 @@
 -(UIImage *)backgroundImageForCard:(Card *)card;
 -(void)updateUI;
 
-@property (weak, nonatomic) IBOutlet UILabel *flipDescription; //texts in every flip
+@property (weak, nonatomic) IBOutlet UILabel *flipDescriptionLabel; //texts in every flip
 @property (strong, nonatomic) NSMutableArray *flipHistory; // of NSStrings
 
 @end

@@ -82,6 +82,21 @@
 
 -(void)updateUI {
     [super updateUI]; //updated UI by CardVC
+    self.flipDescriptionLabel.attributedText = [self replaceCardDescriptionInText:self.flipDescriptionLabel.attributedText];
+}
+
+-(NSAttributedString *)replaceCardDescriptionInText:(NSAttributedString *)text {
+    NSMutableAttributedString *newText = [text mutableCopy];
+    NSArray *setCards = [SetCard createCardFromText:text.string];
+    if(setCards) {
+        for(SetCard *setCard in setCards) {
+            NSRange range = [newText.string rangeOfString:setCard.contents];
+            if(range.location != NSNotFound) {
+                [newText replaceCharactersInRange:range withAttributedString:[self titleForCard:setCard]];
+            }
+        }
+    }
+    return newText;
 }
 
 @end

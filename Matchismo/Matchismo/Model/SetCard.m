@@ -69,7 +69,7 @@
 
 //for set card contents
 -(NSString *)contents {
-    return [NSString stringWithFormat:@"[%@:%@:%@:%d]", self.color, self.symbol, self.shade, self.number];
+    return [NSString stringWithFormat:@"[%@:%@:%@:%d]", self.symbol, self.color, self.shade, self.number];
 }
 
 //override init

@@ -86,9 +86,9 @@
         } else if(self.game.lastScore <0) {
             description = [NSString stringWithFormat:@"%@ don't match! %d point penalty", description, -self.game.lastScore];
         }
-        self.flipDescription.textAlignment =  NSTextAlignmentCenter;
-        self.flipDescription.text = description; //self.game.gameDisplay contains the printf in cardmatchingGame
-        self.flipDescription.alpha = 1; //1 is marked as the present action happening
+        self.flipDescriptionLabel.textAlignment =  NSTextAlignmentCenter;
+        self.flipDescriptionLabel.text = description; //self.game.gameDisplay contains the printf in cardmatchingGame
+        self.flipDescriptionLabel.alpha = 1; //1 is marked as the present action happening
         
         if (![description isEqualToString:@""] && ![[self.flipHistory lastObject] isEqualToString:description]) {
             [self.flipHistory addObject:description];
@@ -116,9 +116,9 @@
     [self.historySlider setValue:sliderValue animated:NO];
     
     if ([self.flipHistory count]) {
-        self.flipDescription.alpha =
+        self.flipDescriptionLabel.alpha =
         (sliderValue + 1 < [self.flipHistory count]) ? 0.6 : 1.0;
-        self.flipDescription.text =
+        self.flipDescriptionLabel.text =
         [self.flipHistory objectAtIndex:sliderValue];
     }
 }
