@@ -7,6 +7,7 @@
 
 #import "CardViewController.h"
 #import "CardMatchingGame.h"
+#import "HistoryViewController.h"
 
 @interface CardViewController ()
 
@@ -128,6 +129,15 @@
     self.historySlider.maximumValue = maxValue;
     [self.historySlider setValue:maxValue animated:YES];
 }
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqualToString:@"show history"]) {
+        if([segue.destinationViewController isKindOfClass:[HistoryViewController class]]) {
+            [segue.destinationViewController setHistory:self.flipHistory];
+        }
+    }
+}
+
 
 /* for mode: 2-card match 3-card match
 - (IBAction)matchMode:(UISegmentedControl *)sender {
