@@ -2,7 +2,7 @@
 //  HistoryViewController.h
 //  Matchismo
 //
-//  Created by Christian Losamia on 3/14/24.
+//  Created by Christian Losamia on 3/7/24.
 //
 
 #ifndef HistoryViewController_h
@@ -16,5 +16,4 @@
 @property (nonatomic, strong) NSArray *history; // of NSStrings || NSAttributedStrigns
 
 @end
-
 #endif /* HistoryViewController_h */

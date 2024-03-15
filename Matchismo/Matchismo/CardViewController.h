@@ -21,5 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *flipDescriptionLabel; //texts in every flip
 @property (strong, nonatomic) NSMutableArray *flipHistory; // of NSStrings
 
+@property (strong, nonatomic) NSString *gameType; //need to hold the game results
+
 @end
 

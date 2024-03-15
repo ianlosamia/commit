@@ -11,13 +11,16 @@
 
 @property (nonatomic, readwrite) NSInteger score; //redeclare as not readonly
 @property (nonatomic, strong) NSMutableArray *cards; // keep track of cards
+@property (nonatomic, strong) NSArray *lastChosenCard;
 @property (nonatomic, readwrite) NSInteger lastScore;
-@property (nonatomic, readwrite) NSArray *lastChosenCard;
-
 
 @end
 
 @implementation CardMatchingGame
+
+static const int MISMATCH_PENALTY = 2;
+static const int MATCH_BONUS = 4;
+static const int COST_TO_CHOOSE = 1;
 
 -(NSMutableArray *)cards {
     
@@ -40,6 +43,11 @@
     
     self = [super init]; //super's designated initializer as init
     
+    //setting defaults
+    _matchBonus = MATCH_BONUS;
+    _mismatchPenalty = MISMATCH_PENALTY;
+    _flipCost = COST_TO_CHOOSE;
+    
     if(self) {
         for(int i = 0; i < count; i++) {
             Card *card = [deck drawRandomCard];
@@ -54,9 +62,6 @@
     return self;
 }
 
-static const int MISMATCH_PENALTY = 2;
-static const int MATCH_BONUS = 4;
-static const int COST_TO_CHOOSE = 1;
 
 -(void)chooseCardAtIndex:(NSUInteger)index {
     
@@ -83,21 +88,21 @@ static const int COST_TO_CHOOSE = 1;
             if([otherCards count] + 1 == self.maxMatchingCards) { //
                 int matchScore = [card match:otherCards];
                 if(matchScore) { //give score
-                    self.lastScore = matchScore * MATCH_BONUS;
+                    self.lastScore = matchScore * self.matchBonus;
                     card.matched = YES;
                     for(Card *otherCard in otherCards) {
                         otherCard.matched = YES;
                     }
                 }
                 else { //else, give penalty
-                    self.lastScore = -MISMATCH_PENALTY;
+                    self.lastScore = -self.mismatchPenalty;
                     for (Card *otherCard in otherCards) {
                         otherCard.matched = NO;
                         otherCard.chosen = NO;
                     }
                 }
              }
-             self.score += self.lastScore - COST_TO_CHOOSE; //penalty for every flip
+             self.score += self.lastScore - self.flipCost; //penalty for every flip
              card.chosen = YES; //mark as chosen
             
         }

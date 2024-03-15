@@ -23,7 +23,6 @@
                 for(NSString *shade in [SetCard validShades]) {
                     for(NSUInteger number = 1; number <=[SetCard maxNumbers]; number++) {
                         SetCard *card = [[SetCard alloc] init];
-                        
                         //set up the card according to property
                         card.color = color;
                         card.symbol = symbol;

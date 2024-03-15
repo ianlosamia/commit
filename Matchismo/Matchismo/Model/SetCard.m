@@ -49,6 +49,11 @@
 }
 //setter getter lazy ins (end)
 
+//for set card contents
+-(NSString *)contents {
+    return [NSString stringWithFormat:@"%@:%@:%@:%lu", self.color, self.symbol, self.shade, (unsigned long)self.number];
+}
+
 //valid values for properties (start)
 + (NSArray *)validColors {
     return @[@"black", @"red", @"blue"];
@@ -66,11 +71,6 @@
     return 3;
 }
 //valid values for properties (end)
-
-//for set card contents
--(NSString *)contents {
-    return [NSString stringWithFormat:@"[%@:%@:%@:%d]", self.symbol, self.color, self.shade, self.number];
-}
 
 //override init
 -(id)init {
@@ -128,38 +128,36 @@
     return score;
 }
 
-//create set cards(based on text) and add to array as result
+//create set cards(based on text and format(card.contents[stringwithformat]) and add to array as result
 +(NSArray *)createCardFromText:(NSString *)text {
     
+    NSMutableArray *setCards = [[NSMutableArray alloc] init];
     NSString *pattern = [NSString stringWithFormat:@"(%@):(%@):(%@):(\\d+)",
-                         [[SetCard validSymbols] componentsJoinedByString:@"|"], //fetch valid symbol and join it to string separated by |
-                         [[SetCard validColors] componentsJoinedByString:@"|"], // . . .
-                         [[SetCard validShades] componentsJoinedByString:@"|"]]; // . . . 
-    
+                         [[SetCard validColors] componentsJoinedByString:@"|"], //fetch valid symbol and join it to string separated by |
+                         [[SetCard validSymbols] componentsJoinedByString:@"|"], // . . .
+                         [[SetCard validShades] componentsJoinedByString:@"|"]]; // . . .
     NSError *error = NULL;
-    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
-    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                             options:NSRegularExpressionCaseInsensitive
+                                                                               error:&error];
     if(error) {
         return nil;
     }
-    NSArray *matches = [regular matchesInString:text options:0 range:NSMakeRange(0, [text length])];
+    NSArray *matches = [regex matchesInString:text options:0 range:NSMakeRange(0, [text length])];
     
     if(![matches count]) {
         return nil;
     }
-    
-    NSMutableArray *setCards = [[NSMutableArray alloc] init];
-    
+    //this should match the pattern indicated above and to the contents given above
     for (NSTextCheckingResult *match in matches) {
         SetCard *setCard = [[SetCard alloc] init];
-        setCard.symbol = [text substringWithRange:[match rangeAtIndex:1]];
-        setCard.color = [text substringWithRange:[match rangeAtIndex:2]];
+        setCard.color = [text substringWithRange:[match rangeAtIndex:1]];
+        setCard.symbol = [text substringWithRange:[match rangeAtIndex:2]];
         setCard.shade = [text substringWithRange:[match rangeAtIndex:3]];
         setCard.number = [[text substringWithRange:[match rangeAtIndex:4]] intValue];
         [setCards addObject:setCard];
     }
     return setCards;
-
 }
 
 @end

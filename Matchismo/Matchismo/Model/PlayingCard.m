@@ -53,6 +53,11 @@
 }
 //set valid values for properties (end)
 
+-(NSString*)contents { //override "contents" method in card class (inheritance)
+    
+    return [[PlayingCard rankStrings][self.rank] stringByAppendingString:self.suit];
+}
+
 -(int)match:(NSArray *)otherCards {
     
     int score = 0;
@@ -101,12 +106,5 @@
         }
     }*/
 }
-
--(NSString*)contents { //override "contents" method in card class (inheritance)
-    
-    return [[PlayingCard rankStrings][self.rank] stringByAppendingString:self.suit];
-}
-
-
 
 @end

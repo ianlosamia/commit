@@ -6,10 +6,10 @@
 //
 
 #import "SetCardViewController.h"
+#import "HistoryViewController.h"
 #import "SetCardDeck.h"
 #import "SetCard.h"
 #import "CardMatchingGame.h"
-#import "HistoryViewController.h"
 
 @interface SetCardViewController()
 
@@ -18,6 +18,7 @@
 @implementation SetCardViewController
 
 -(Deck *)createDeck {
+    self.gameType = @"Set Cards";
     return [[SetCardDeck alloc] init];
 }
 //override backgroundImageForCard
@@ -80,12 +81,7 @@
     [super viewDidLoad];
     [super updateUI];
 }
-
--(void)updateUI {
-    [super updateUI]; //updated UI by CardVC
-    self.flipDescriptionLabel.attributedText = [self replaceCardDescriptionInText:self.flipDescriptionLabel.attributedText];
-}
-
+//get description string, replace by the card title if it hold card description
 -(NSAttributedString *)replaceCardDescriptionInText:(NSAttributedString *)text {
     NSMutableAttributedString *newText = [text mutableCopy];
     NSArray *setCards = [SetCard createCardFromText:text.string];
@@ -100,6 +96,12 @@
     return newText;
 }
 
+-(void)updateUI {
+    [super updateUI]; //updated UI by CardVC
+    self.flipDescriptionLabel.attributedText = [self replaceCardDescriptionInText:self.flipDescriptionLabel.attributedText];
+}
+
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:@"show history"]) {
         if([segue.destinationViewController isKindOfClass:[HistoryViewController class]]) {
@@ -112,4 +114,5 @@
         }
     }
 }
+
 @end
